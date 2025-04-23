@@ -1,0 +1,20 @@
+[33m03c85d3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: commit (merge): Merge branch 'main' of https://github.com/Musabi-1/Shin-Colon
+[33m28cafb7[m HEAD@{1}: reset: moving to HEAD
+[33m28cafb7[m HEAD@{2}: 
+[33m7eb8066[m HEAD@{3}: commit: Git LFS の追加
+[33m5daba13[m HEAD@{4}: commit: 適当
+[33mdc3123b[m HEAD@{5}: commit: めちゃくちゃ簡単ななにかを作った
+[33mc6f538c[m HEAD@{6}: commit: モバイルへバージョン移行
+[33m1ace9eb[m HEAD@{7}: checkout: moving from travis_asobi to main
+[33m7648254[m HEAD@{8}: commit: asfsadfa
+[33mf51a429[m HEAD@{9}: commit: 環境
+[33m4289f22[m HEAD@{10}: checkout: moving from main to travis_asobi
+[33m324d8e5[m HEAD@{11}: checkout: moving from travis_asobi to main
+[33m4289f22[m HEAD@{12}: commit: branch test
+[33m324d8e5[m HEAD@{13}: checkout: moving from main to travis_asobi
+[33m324d8e5[m HEAD@{14}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m9b0aaf2[m HEAD@{15}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m0a1e4c8[m HEAD@{16}: commit: Unityバージョン変更
+[33mf8ee108[m HEAD@{17}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m8bd08c3[m HEAD@{18}: commit: Unityバージョン変更
+[33mc0e4b9b[m HEAD@{19}: clone: from https://github.com/Musabi-1/Shin-Colon.git
