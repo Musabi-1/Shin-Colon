@@ -16,7 +16,6 @@ public class RingCollide : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider ring){
-        Debug.Log("Collision detected with tag: " + ring.tag);
         if(ring.CompareTag("Ring") && !activated){
             activated = true;
             StartCoroutine(Activate());

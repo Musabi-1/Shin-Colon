@@ -16,6 +16,10 @@ public class ringGenerator : MonoBehaviour
 
     void Start()
     {
+        Invoke(nameof(BeginSpawning), bpm);
+    }
+
+    private void BeginSpawning(){
         StartCoroutine(SpawnRingLoop());
     }
 
@@ -31,6 +35,5 @@ public class ringGenerator : MonoBehaviour
         newRing.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         RingBehavior ringScript = newRing.GetComponent<RingBehavior>();
         ringScript.Init(targetSizeValue, growSpeed, fadeDuration);
-        Debug.Log("Spawned Ring at ");
     }
 }

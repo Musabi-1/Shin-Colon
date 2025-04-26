@@ -8,6 +8,7 @@ public class RingBehavior : MonoBehaviour
     private Vector3 targetSize;
     private SpriteRenderer ringSprite;
     private float fadeDuration;
+    private bool isInitialised = false;
 
 
     public void Init(int targetSizeValue, float growSpeed, float fadeDuration){
@@ -15,10 +16,13 @@ public class RingBehavior : MonoBehaviour
         this.growSpeed = growSpeed;
         this.fadeDuration = fadeDuration;
         ringSprite = GetComponent<SpriteRenderer>();
+        isInitialised = true;
     }
 
     void Update()
     {
+        if(!isInitialised) return;
+
         transform.localScale = Vector3.Lerp(transform.localScale, targetSize, Time.deltaTime * growSpeed);
         if(Mathf.Abs(transform.localScale.x - targetSizeValue) < 0.5f && !fading){
             StartCoroutine(fadeOut(ringSprite, fadeDuration));
