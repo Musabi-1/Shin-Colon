@@ -1,16 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CastleBehavior : MonoBehaviour
 {
-    public int hp = 100;
-    
-    void Start(){
+    [SerializeField] private int hp = 6;
+    private GameObject castle;
+    [SerializeField] Timemanagement timemanagement;
 
+    public void Start()
+    {
+        castle = transform.parent.gameObject;
     }
 
-    void Update(){
+    public void takeDamage(int damage){
+        hp-= damage;
+        Debug.Log("Castle Damaged");
+        if(hp <=0){
+            Die();
+        }
     }
 
+    private void Die(){
+        Destroy(castle);
+    }
 }

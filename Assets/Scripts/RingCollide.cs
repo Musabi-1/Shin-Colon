@@ -9,6 +9,7 @@ public class RingCollide : MonoBehaviour
     private Color basecolour;
     private Renderer tower;
     private bool activated = false;
+    [SerializeField] private TowerAttack towerAttack;
     
     void Start(){
         tower = GetComponent<Renderer>();
@@ -19,8 +20,8 @@ public class RingCollide : MonoBehaviour
         if(ring.CompareTag("Ring") && !activated){
             activated = true;
             StartCoroutine(Activate());
-            Debug.Log("Colliding with Ring");
             activated = false;
+            StartCoroutine(towerAttack.AttackEnemy());
         }
     }
 

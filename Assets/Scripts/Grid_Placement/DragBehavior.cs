@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -54,17 +53,14 @@ public class DragBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(EventSystem.current.IsPointerOverGameObject()){
+        Vector3Int currentCell = grid.WorldToCell(draggedObj.transform.position);
+        bool isPath = gridData.IsPath(currentCell);
+        if(EventSystem.current.IsPointerOverGameObject() || gridData.occupiedCells.Contains(currentCell) || isPath){
             Destroy(draggedObj);
             gridVisuals.SetActive(false);
             return;
         }
 
-        Vector3Int currentCell = grid.WorldToCell(draggedObj.transform.position);
-
-        if(gridData.occupiedCells.Contains(currentCell)){
-            Destroy(draggedObj);
-        }
         else{
             gridData.occupiedCells.Add(currentCell);
             elixirSystem.RemoveElixir(cost);

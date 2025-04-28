@@ -5,11 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class pausemenu : MonoBehaviour
 {
-    [SerializeField] GameObject pauseMenu;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject gameOverMenu;
+    [SerializeField] private GameObject gameCompleteMenu;
     public void Pause()
     {
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
+    }
+
+    public void GameOver(){
+        Time.timeScale = 0;
+        gameOverMenu.SetActive(true);
+    }
+
+    public void GameComplete(){
+        Time.timeScale = 0;
+        gameCompleteMenu.SetActive(true);
     }
 
     public void Home()

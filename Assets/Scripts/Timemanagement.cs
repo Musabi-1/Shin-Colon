@@ -6,7 +6,8 @@ using TMPro;
 public class Timemanagement : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
-    [SerializeField] float remainingTime;
+    [SerializeField] pausemenu Pausemenu;
+    public float remainingTime;
     void Update()
     {
         if(remainingTime > 0){
@@ -14,6 +15,7 @@ public class Timemanagement : MonoBehaviour
         }
         else if(remainingTime <0){
             remainingTime = 0;
+            Pausemenu.GameComplete();
         }
         
         int minutes = Mathf.FloorToInt(remainingTime / 60);
