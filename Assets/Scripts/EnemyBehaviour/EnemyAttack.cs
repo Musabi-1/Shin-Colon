@@ -12,8 +12,8 @@ public class EnemyAttack : MonoBehaviour
     private bool wasAtTarget = false;
     private bool wasAtTower = false;
     private Coroutine attackCoroutine;
-    [SerializeField] private int hp = 100;
     [SerializeField] private float attackRange = 2f;
+    private bool canAttackTower = false;
 
     private void Update()
     {
@@ -22,21 +22,13 @@ public class EnemyAttack : MonoBehaviour
             return;
         }
 
-        GameObject closestTower = FindClosestTower();
+        GameObject closestTower = FindClosestTowerInRange();
 
-        if(closestTower != null){
-            float distanceToTower = Vector3.Distance(transform.position, closestTower.transform.position);
-            Debug.Log("Distance to tower: " + distanceToTower);
-            if(distanceToTower <= attackRange){
-                Debug.Log("Inrange");
-                if(!wasAtTower){
-                   enemyPathing.StopMoving();
-                    attackCoroutine = StartCoroutine(AttackTower(closestTower));
-                    wasAtTower = true;
-                }
-            }
-            else{
-                Debug.Log("Tower is out of range distance: " + distanceToTower);
+        if(canAttackTower){
+            if(!wasAtTower){
+                enemyPathing.StopMoving();
+                attackCoroutine = StartCoroutine(AttackTower(closestTower));
+                wasAtTower = true;
             }
         }
         else if(enemyPathing.targetObject != null){
@@ -59,7 +51,6 @@ public class EnemyAttack : MonoBehaviour
 
     IEnumerator AttackCastle(){
         while(castleBehavior != null && castleBehavior.gameObject!= null){
-            Debug.Log("Attacked");
             castleBehavior.takeDamage(attackDamage);
             yield return new WaitForSeconds(attackSpeed);
         }
@@ -68,7 +59,7 @@ public class EnemyAttack : MonoBehaviour
     }
 
     IEnumerator AttackTower(GameObject tower){
-        TowerAttack towerAttack = tower.GetComponent<TowerAttack>();
+        TowerHp towerAttack = tower.GetComponent<TowerHp>();
         while(towerAttack != null && towerAttack.gameObject != null){
             towerAttack.TakeDamage(attackDamage);
             yield return new WaitForSeconds(attackSpeed);
@@ -77,40 +68,25 @@ public class EnemyAttack : MonoBehaviour
         HandleStopAttack();
     }
 
-    public void takeDamage(int damage){
-        hp -= damage;
-        if(hp <= 0){
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        Destroy(this.gameObject);
-    }
-
-    private GameObject FindClosestTower(){
+    private GameObject FindClosestTowerInRange(){
         GameObject[] towers = GameObject.FindGameObjectsWithTag("TargettableTower");
         GameObject closestTower = null;
         float closestDistance = Mathf.Infinity;
 
         foreach(GameObject tower in towers){
             Transform towerTransform = tower.transform;
-            Transform[] children = towerTransform.GetComponentsInChildren<Transform>();
-
-            foreach(Transform child in children){
-                if(child.gameObject.CompareTag("TargettableTower")){
-
-                    float distance = Vector3.Distance(transform.position, child.position);
-
-                    if(distance < closestDistance){
-                        closestDistance = distance;
-                        closestTower = child.gameObject;
-                    }
-                }
+            float distance = Vector3.Distance(transform.position, towerTransform.position);
+            if(distance < closestDistance){
+                closestDistance = distance;
+                closestTower = tower;
             }
         }
-
+        if(closestDistance <= attackRange){
+            canAttackTower = true;
+        }
+        else{
+            canAttackTower = false;
+        }
         return closestTower;
     }
 
