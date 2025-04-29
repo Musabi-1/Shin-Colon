@@ -5,31 +5,25 @@ using UnityEngine.UIElements;
 
 public class RingCollide : MonoBehaviour
 {
-    public float activatedSeconds = 1;
-    private Color basecolour;
-    private Renderer tower;
-    private bool activated = false;
-    [SerializeField] private TowerAttack towerAttack;
-    
-    void Start(){
-        tower = GetComponent<Renderer>();
-        basecolour = tower.material.color;
-    }
+    [SerializeField] TowerMovement towerMovement;
+    [SerializeField] private LayerMask knightLayer;
 
     void OnTriggerEnter(Collider ring){
-        if(ring.CompareTag("Ring") && !activated){
-            activated = true;
-            StartCoroutine(Activate());
-            activated = false;
-            StartCoroutine(towerAttack.AttackEnemy());
+        if(ring.CompareTag("Ring")){
+            Debug.Log("Ring detected");
+            TriggerNearbyKnights();
         }
     }
 
-    IEnumerator Activate(){
-        tower.material.color = Color.red;
-
-        yield return new WaitForSeconds(activatedSeconds);
-
-        tower.material.color = basecolour;
+    private void TriggerNearbyKnights(){
+        Collider[] hits = Physics.OverlapSphere(transform.position, towerMovement.circleRadius, knightLayer);
+        foreach(var hit in hits){
+            KnightAttack knight = hit.GetComponent<KnightAttack>();
+            if(knight != null){
+                Debug.Log("Knight found");
+                knight.AttackEnemy();
+            }
+        }
     }
+
 }

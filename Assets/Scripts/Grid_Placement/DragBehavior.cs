@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class DragBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private GameObject spawnObj;
+    [SerializeField] private GameObject spawnObjVisual;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Elixir elixirSystem;
     [SerializeField] private GameObject gridVisuals;
@@ -32,8 +33,8 @@ public class DragBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             worldPos = inputManager.ScreenToWorldPosition(eventData);
             gridPos = grid.WorldToCell(worldPos);
             objPos = grid.CellToWorld(gridPos);
-            objPos.y = 0.02f;
-            draggedObj = Instantiate(spawnObj, objPos, Quaternion.identity);
+            objPos.y = 0f;
+            draggedObj = Instantiate(spawnObjVisual, objPos, Quaternion.identity);
         }
         else{
             eventData.pointerDrag = null;
@@ -46,7 +47,7 @@ public class DragBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             worldPos = inputManager.ScreenToWorldPosition(eventData);
             gridPos = grid.WorldToCell(worldPos);
             objPos = grid.CellToWorld(gridPos);
-            objPos.y = 0.02f;
+            objPos.y = 0f;
             draggedObj.transform.position = objPos;
         }
     }
@@ -55,13 +56,14 @@ public class DragBehaviour : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         Vector3Int currentCell = grid.WorldToCell(draggedObj.transform.position);
         bool isPath = gridData.IsPath(currentCell);
+        Destroy(draggedObj);
         if(EventSystem.current.IsPointerOverGameObject() || gridData.occupiedCells.Contains(currentCell) || isPath){
-            Destroy(draggedObj);
             gridVisuals.SetActive(false);
             return;
         }
 
         else{
+            Instantiate(spawnObj, objPos, Quaternion.identity);
             gridData.occupiedCells.Add(currentCell);
             elixirSystem.RemoveElixir(cost);
             count--;

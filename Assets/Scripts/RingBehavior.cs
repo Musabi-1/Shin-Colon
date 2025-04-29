@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RingBehavior : MonoBehaviour
 {   private float growSpeed;
-    private int targetSizeValue;
     private Vector3 targetSize;
     private SpriteRenderer ringSprite;
     private float fadeDuration;
@@ -15,7 +14,7 @@ public class RingBehavior : MonoBehaviour
         this.targetSize = new Vector3(targetSizeValue,targetSizeValue,targetSizeValue);
         this.growSpeed = growSpeed;
         this.fadeDuration = fadeDuration;
-        ringSprite = GetComponent<SpriteRenderer>();
+        ringSprite = GetComponentInChildren<SpriteRenderer>();
         isInitialised = true;
     }
 
@@ -24,7 +23,7 @@ public class RingBehavior : MonoBehaviour
         if(!isInitialised) return;
 
         transform.localScale = Vector3.Lerp(transform.localScale, targetSize, Time.deltaTime * growSpeed);
-        if(Mathf.Abs(transform.localScale.x - targetSizeValue) < 0.5f && !fading){
+        if(Mathf.Abs(transform.localScale.x - targetSize.x) < 0.5f && !fading){
             StartCoroutine(fadeOut(ringSprite, fadeDuration));
             fading = true;
         }
@@ -44,7 +43,7 @@ public class RingBehavior : MonoBehaviour
             yield return null;
         }
 
-        Destroy(MyRenderer.gameObject);
+        Destroy(MyRenderer.gameObject.transform.parent.gameObject);
     }
 
 }
