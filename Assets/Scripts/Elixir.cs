@@ -8,12 +8,14 @@ using UnityEngine.UI;
 public class Elixir : MonoBehaviour
 {
     [HideInInspector] public int elixirCount;
-    [SerializeField] private float elixirSeconds;
+    [SerializeField] private ringGenerator RingGenerator;
     [SerializeField] private int Maxelixir;
     [SerializeField] private List<Image> elixirImages;
     private float elixirTimer;
+    private float elixirSeconds;
     private void Awake()
     {
+        elixirSeconds = RingGenerator.bpm;
         elixirCount = 0;
         elixirTimer = 0f;
 
