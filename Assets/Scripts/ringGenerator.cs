@@ -15,6 +15,8 @@ public class ringGenerator : MonoBehaviour
     public float ringHeight = 0.2f;
     [SerializeField] Timemanagement timemanagement;
 
+    
+
     public void StartRingSpawn()
     {
         Invoke(nameof(BeginSpawning), bpm);
